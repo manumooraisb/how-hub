@@ -251,6 +251,20 @@ main{max-width:1440px;margin:0 auto;padding-bottom:max(40px,env(safe-area-inset-
 .em-breve{border:1px dashed var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px;color:var(--muted);font-size:13px}
 .em-breve b{color:var(--ink)}
 
+/* aba Posts (banco antes do calendário) */
+.pg-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.claude-tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:color-mix(in srgb,var(--st-rev) 16%,transparent);color:var(--ink);justify-self:start;white-space:nowrap}
+.item.do-claude{border-style:dashed}
+.item .tile.ideia{aspect-ratio:auto;min-height:120px;gap:14px}
+.item .tile.ideia .dom{font-size:24px}
+.item .resumo{margin:0;color:var(--ink2);font-size:13px;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.aviso-claude{border:1px dashed var(--line);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--muted);display:grid;gap:2px}
+.aviso-claude b{color:var(--ink)}
+.modal.larga{width:min(760px,calc(100vw - 32px));top:5vh;max-height:90vh}
+.modal input.tit{font-family:var(--serif);font-size:26px;border:0;border-bottom:1px solid var(--line);padding:4px 0;background:none;width:100%}
+.modal input.tit:focus{outline:none;border-color:var(--ink)}
+.campo textarea.alto{min-height:220px}
+
 /* entrada: quem é você? */
 .entrada{position:fixed;inset:0;z-index:90;background:var(--bg);overflow:auto;display:grid;place-items:center;padding-block:max(24px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .ent-box{width:min(420px,100%);display:grid;gap:18px}
@@ -286,6 +300,7 @@ button.av{border:0;cursor:pointer;padding:0}
   <div class="brand"><svg class="logo" viewBox="181 425 718 230" role="img" aria-label="HOW"><path fill="currentColor" d="M843.56,431.39l-48.51,110.13c-8.24,18.91-28.99,19.21-30.81,0l-11.59-110.13h-50.34s-50.34,110.13-50.34,110.13c-8.54,19.21-28.68,18.91-30.51,0l-10.07-110.13h-53.08s4.77,34.64,4.77,34.64c.48,3.48-4.06,5.42-6.11,2.57-18.54-25.87-48.56-41.33-86.08-41.33-44.83,0-78.97,22.07-95.58,57.61-1.53,3.28-6.47,2.11-6.47-1.51v-52.44s-47.9,0-47.9,0v45.15c0,27.76-12.51,41.49-41.49,41.49h-48.21s0-86.64,0-86.64h-47.9s0,217.21,0,217.21h47.9s0-50.33,0-50.33c0-22.75,18.44-41.19,41.19-41.19h48.51s0,91.52,0,91.52h47.9s0-53.07,0-53.07c0-3.64,4.98-4.79,6.48-1.47,16.62,36.62,50.75,59.12,95.56,59.12,50.65,0,87.64-28.75,101.12-74.15,1.03-3.48,6.15-3,6.64.6l9.56,69.42h56.14s70.78-151.62,70.78-151.62l17.09,151.62h56.44s108-217.21,108-217.21h-53.08ZM470.89,613.07c-33.87,0-57.05-31.42-57.05-74.44,0-44.24,23.18-72.31,57.05-72.31,33.87,0,57.05,28.07,57.05,72.31,0,43.02-23.18,74.44-57.05,74.44Z"/></svg><span class="sub">Content Hub</span></div>
   <nav class="areas" aria-label="Áreas">
     <button class="area" type="button" data-area="cal" aria-current="page">Calendário</button>
+    <button class="area" type="button" data-area="banco">Posts</button>
     <button class="area" type="button" data-area="refs">Referências</button>
     <button class="area" type="button" data-area="receb">Recebidos</button>
   </nav>
@@ -317,6 +332,16 @@ button.av{border:0;cursor:pointer;padding:0}
 <main class="gut" id="cal"><div class="skel"></div></main>
 </div>
 
+<main class="gut pg" id="areaBanco" hidden>
+  <div class="pg-top"><div class="pg-h"><h1>Posts</h1>
+    <p>Banco de posts prontos e ideias, antes do calendário. A gente refina aqui e depois escolhe o dia de cada um.</p></div>
+    <button class="btn" type="button" id="novaIdeia">+ Novo post</button></div>
+  <div class="aviso-claude"><b>✦ Sugestão do Claude</b><span>Os cards com esta marca foram criados pelo Claude, não pela equipe. São sugestões: revise, refine (ou leve para o chat de carrosséis) antes de ir para o calendário.</span></div>
+  <div class="seg" id="bancoTabs" role="group" aria-label="Situação"></div>
+  <div class="filtros" id="bancoOrigem" role="group" aria-label="Quem criou"></div>
+  <div class="grade" id="bancoLista"></div>
+</main>
+
 <main class="gut pg" id="areaRefs" hidden>
   <div class="pg-h"><h1>Referências</h1>
     <p>Salve os Reels, TikToks e posts que inspiram a gente. Com um clique, a referência vira ideia no calendário.</p></div>
@@ -329,7 +354,7 @@ button.av{border:0;cursor:pointer;padding:0}
   <p class="dica">Viu algo no Direct do Instagram? Toque em <b>Compartilhar → Copiar link</b> e cole aqui.</p>
   <div class="filtros" id="refFiltros" role="group" aria-label="Filtrar por categoria"></div>
   <div class="grade" id="refsLista"></div>
-  <div class="em-breve"><b>Tendências da semana</b><span>Na etapa 5, toda segunda a IA traz aqui o que está em alta em wellness, com ideias para a HOW e o link das fontes.</span></div>
+  <div class="aviso-claude"><b>✦ Em alta, segundo o Claude</b><span>As referências com esta marca foram pesquisadas pelo Claude (com o link da fonte). São sugestões, não verdades: confira antes de usar. Toda semana entram novas.</span></div>
 </main>
 
 <main class="gut pg" id="areaReceb" hidden>
@@ -409,10 +434,11 @@ const S = {
   aberto: null, sujo: {}, salvando: false, timer: null,
   quickDia: null,
   area: 'cal', refs: [], receb: [], refCat: '', recTab: 'Novo', virando: null,
+  ideias: [], bancoTab: 'A refinar', bancoOrigem: '',
   token: ls.get('hub.token', ''), nomes: null, entrando: false,
 };
 const hojeIso = () => iso(new Date());
-const nomeDe = email => { const m = S.equipe.find(x => x.email === email); return m ? m.nome : (email || '').split('@')[0]; };
+const nomeDe = email => { if (email === 'claude') return 'Claude'; const m = S.equipe.find(x => x.email === email); return m ? m.nome : (email || '').split('@')[0]; };
 const iniciais = email => nomeDe(email).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?';
 const postsDoDia = d => [...S.posts.values()].filter(p => p.plataforma === S.plat && p.data === d && p.excluido !== '1')
   .sort((a, b) => (a.criadoEm < b.criadoEm ? -1 : 1));
@@ -833,8 +859,8 @@ document.querySelector('.areas').addEventListener('click', e => { const b = e.ta
 function irArea(a) {
   S.area = a;
   document.querySelectorAll('[data-area]').forEach(b => { if (b.dataset.area === a) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-  $('#areaCal').hidden = a !== 'cal'; $('#areaRefs').hidden = a !== 'refs'; $('#areaReceb').hidden = a !== 'receb';
-  if (a === 'refs') renderRefs(); else if (a === 'receb') renderReceb(); else render();
+  $('#areaCal').hidden = a !== 'cal'; $('#areaRefs').hidden = a !== 'refs'; $('#areaReceb').hidden = a !== 'receb'; $('#areaBanco').hidden = a !== 'banco';
+  if (a === 'refs') renderRefs(); else if (a === 'receb') renderReceb(); else if (a === 'banco') renderBanco(); else render();
   window.scrollTo(0, 0);
 }
 function irParaPost(id) {
@@ -864,8 +890,11 @@ $('#formRef').addEventListener('submit', async e => {
 });
 function renderRefs() {
   const usadas = CATEGORIAS_REF.filter(c => S.refs.some(r => r.categoria === c));
-  $('#refFiltros').innerHTML = S.refs.length ? ['Todas'].concat(usadas).map(c => '<button type="button" data-cat="' + (c === 'Todas' ? '' : esc(c)) + '" aria-pressed="' + ((c === 'Todas' ? '' : c) === S.refCat) + '">' + esc(c) + '</button>').join('') : '';
-  const lista = S.refs.filter(r => !S.refCat || r.categoria === S.refCat);
+  const temClaude = S.refs.some(r => r.origem === 'claude');
+  const cats = ['Todas'].concat(temClaude ? ['✦ Sugestões do Claude'] : [], usadas);
+  const valor = c => c === 'Todas' ? '' : c === '✦ Sugestões do Claude' ? '__claude' : c;
+  $('#refFiltros').innerHTML = S.refs.length ? cats.map(c => '<button type="button" data-cat="' + esc(valor(c)) + '" aria-pressed="' + (valor(c) === S.refCat) + '">' + esc(c) + '</button>').join('') : '';
+  const lista = S.refs.filter(r => !S.refCat || (S.refCat === '__claude' ? r.origem === 'claude' : r.categoria === S.refCat));
   $('#refsLista').innerHTML = lista.length ? lista.map(r => {
     const tile = r.thumb
       ? '<a class="tile has-img" href="' + esc(r.url) + '" target="_blank" rel="noopener"><img src="' + esc(r.thumb) + '" alt=""></a>'
@@ -875,10 +904,13 @@ function renderRefs() {
       (r.postId && S.posts.has(r.postId) && S.posts.get(r.postId).excluido !== '1'
         ? '<button class="mini" type="button" data-irpost="' + esc(r.postId) + '">Ver no calendário</button>'
         : '<button class="mini pri" type="button" data-virarref="' + esc(r.id) + '">Virar post</button>') +
+      (r.ideiaId && S.ideias.some(i => i.id === r.ideiaId) ? '<button class="mini" type="button" data-abrirideia="' + esc(r.ideiaId) + '">Ver em Posts</button>'
+        : '<button class="mini" type="button" data-refideia="' + esc(r.id) + '">Guardar em Posts</button>') +
       '<button class="mini del" type="button" data-delref="' + esc(r.id) + '">Excluir</button></div>';
-    return '<article class="item">' + tile + '<div class="ib"><span class="tag">' + esc(r.categoria) + '</span>' +
+    const doClaude = r.origem === 'claude';
+    return '<article class="item' + (doClaude ? ' do-claude' : '') + '">' + tile + '<div class="ib"><span class="c-b">' + (doClaude ? '<span class="claude-tag">✦ Sugestão do Claude</span>' : '') + '<span class="tag">' + esc(r.categoria) + '</span></span>' +
       (r.nota ? '<p class="nota">' + esc(r.nota) + '</p>' : '') +
-      '<span class="meta">' + esc(nomeDe(r.criadoPor)) + ' · ' + dataCurta(r.criadoEm) + '</span></div>' + acoes + '</article>';
+      '<span class="meta">' + (doClaude ? 'Pesquisado pelo Claude' : esc(nomeDe(r.criadoPor))) + ' · ' + dataCurta(r.criadoEm) + '</span></div>' + acoes + '</article>';
   }).join('') : '<div class="vazio-pg">' + (S.refs.length ? 'Nenhuma referência nesta categoria.' : 'Nenhuma referência ainda. Cole um link acima para começar.') + '</div>';
 }
 $('#areaRefs').addEventListener('click', async e => {
@@ -886,6 +918,14 @@ $('#areaRefs').addEventListener('click', async e => {
   const v = e.target.closest('[data-virarref]'); if (v) { S.virando = v.dataset.virarref; renderRefs(); return; }
   if (e.target.closest('[data-cancelar]')) { S.virando = null; renderRefs(); return; }
   const ir = e.target.closest('[data-irpost]'); if (ir) { irParaPost(ir.dataset.irpost); return; }
+  const ab = e.target.closest('[data-abrirideia]'); if (ab) { irArea('banco'); abrirIdeia(ab.dataset.abrirideia); return; }
+  const gi = e.target.closest('[data-refideia]');
+  if (gi) {
+    gi.disabled = true;
+    try { const r = await api('referenciaParaIdeia', gi.dataset.refideia); S.ideias = r.ideias; S.refs = r.referencias; renderRefs(); toast('Guardado em Posts', 'Abrir', () => { irArea('banco'); abrirIdeia(S.ideias[0].id); }); }
+    catch (err) { gi.disabled = false; toast(erroTexto(err)); }
+    return;
+  }
   const del = e.target.closest('[data-delref]');
   if (del) {
     if (!del.classList.contains('armed')) { del.classList.add('armed'); del.textContent = 'Confirmar'; return; }
@@ -900,6 +940,135 @@ $('#areaRefs').addEventListener('click', async e => {
       S.posts.set(r.post.id, r.post); S.refs = r.referencias; S.virando = null; renderRefs();
       toast('Ideia criada em ' + rotuloDia(data), 'Ver post', () => irParaPost(r.post.id));
     } catch (err) { toast(erroTexto(err)); }
+  }
+});
+
+/* posts (banco antes do calendário) */
+const BANCO_TABS = ['A refinar', 'Pronto', 'No calendário', 'Descartado'];
+const BANCO_NOMES = { 'A refinar': 'A refinar', 'Pronto': 'Prontos', 'No calendário': 'No calendário', 'Descartado': 'Descartados' };
+const BANCO_COR = { 'A refinar': 'var(--st-prod)', 'Pronto': 'var(--st-ok)', 'No calendário': 'var(--ink)', 'Descartado': 'var(--muted)' };
+function renderBanco() {
+  $('#bancoTabs').innerHTML = BANCO_TABS.map(t => { const n = S.ideias.filter(x => x.status === t).length; return '<button type="button" data-btab="' + t + '" aria-pressed="' + (t === S.bancoTab) + '">' + BANCO_NOMES[t] + (n ? ' · ' + n : '') + '</button>'; }).join('');
+  const temClaude = S.ideias.some(x => x.origem === 'claude');
+  $('#bancoOrigem').innerHTML = temClaude ? [['', 'Todos'], ['claude', '✦ Sugestões do Claude'], ['equipe', 'Da equipe']].map(o => '<button type="button" data-borig="' + o[0] + '" aria-pressed="' + (o[0] === S.bancoOrigem) + '">' + o[1] + '</button>').join('') : '';
+  const lista = S.ideias.filter(x => x.status === S.bancoTab && (!S.bancoOrigem || x.origem === S.bancoOrigem));
+  $('#bancoLista').innerHTML = lista.length ? lista.map(x => {
+    const doClaude = x.origem === 'claude';
+    const capa = (x.anexos || []).find(a => a.tipo === 'imagem');
+    const tile = '<button type="button" class="tile ideia' + (capa ? ' has-img' : '') + '" data-abrirideia="' + esc(x.id) + '" style="border:0;text-align:left;width:100%">' +
+      (capa ? imgTag(capa, 'alt=""') : '<span class="pf">' + esc((x.formato || 'Post') + ' · ' + NOME_PF[x.plataforma || 'ig']) + '</span><span class="dom">' + esc(x.titulo) + '</span>') + '</button>';
+    let acoes;
+    if (S.virando === x.id) acoes = formVirar(x.id, true);
+    else if (x.status === 'No calendário' && x.postId) acoes = '<div class="acoes"><button class="mini" type="button" data-irpost="' + esc(x.postId) + '">Ver no calendário</button><button class="mini" type="button" data-abrirideia="' + esc(x.id) + '">Abrir</button></div>';
+    else if (x.status === 'Descartado') acoes = '<div class="acoes"><button class="mini" type="button" data-bset="A refinar" data-bid="' + esc(x.id) + '">Restaurar</button></div>';
+    else acoes = '<div class="acoes"><button class="mini pri" type="button" data-abrirideia="' + esc(x.id) + '">Abrir</button><button class="mini" type="button" data-virarideia="' + esc(x.id) + '">Levar ao calendário</button></div>';
+    return '<article class="item' + (doClaude ? ' do-claude' : '') + '">' + tile + '<div class="ib">' +
+      '<span class="c-b">' + (doClaude ? '<span class="claude-tag">✦ Sugestão do Claude</span>' : '') +
+      (x.produto ? '<span class="pd ' + pdClass(x.produto) + '"></span><span class="meta">' + esc(x.produto) + '</span>' : '') + '</span>' +
+      (capa ? '<p class="inf" style="font-size:20px">' + esc(x.titulo) + '</p>' : '') +
+      ((x.legenda || x.roteiro) ? '<p class="resumo">' + esc(x.legenda || x.roteiro) + '</p>' : '') +
+      '<span class="meta">' + (doClaude ? 'Criado pelo Claude' : 'Por ' + esc(nomeDe(x.criadoPor))) + ' · ' + dataCurta(x.criadoEm) +
+      (x.atualizadoPor && x.atualizadoPor !== x.criadoPor ? ' · editado por ' + esc(nomeDe(x.atualizadoPor)) : '') + '</span></div>' + acoes + '</article>';
+  }).join('') : '<div class="vazio-pg">' + (S.ideias.length ? 'Nada aqui.' : 'Nenhum post no banco ainda. Clique em "+ Novo post" ou guarde uma referência.') + '</div>';
+  hidratarImgs();
+}
+function textoParaChat(x) {
+  return 'Quero refinar este post para o perfil da HOW (' + (x.plataforma === 'tt' ? 'TikTok' : 'Instagram') + '). Mantenha o nosso estilo de carrossel e as regras de claims.\n\n' +
+    'Título: ' + x.titulo + '\nFormato: ' + (x.formato || '-') + '\nProduto: ' + (x.produto || '-') +
+    (x.roteiro ? '\n\nRoteiro / slides:\n' + x.roteiro : '') + (x.legenda ? '\n\nLegenda:\n' + x.legenda : '') + (x.observacoes ? '\n\nObservações:\n' + x.observacoes : '');
+}
+function abrirIdeia(id) {
+  const x = id ? S.ideias.find(i => i.id === id) : { id: '', titulo: '', formato: 'Carrossel', produto: '', plataforma: 'ig', roteiro: '', legenda: '', observacoes: '', status: 'A refinar', origem: 'equipe', anexos: [] };
+  if (!x) { toast('Este post não existe mais'); return; }
+  S.aberto = null; S.ideiaAberta = x.id;
+  const opt = (lista, v) => lista.map(o => '<option' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>').join('');
+  const imgs = (x.anexos || []).filter(a => a.tipo === 'imagem');
+  const links = (x.anexos || []).filter(a => a.tipo !== 'imagem');
+  $('#camada').innerHTML = '<div class="backdrop" data-fechar></div><div class="modal larga" role="dialog" aria-modal="true" aria-label="Post do banco">' +
+    (x.origem === 'claude' ? '<span class="claude-tag">✦ Sugestão do Claude · revise antes de usar</span>' : '') +
+    '<input class="tit" id="iTit" placeholder="Título do post" value="' + esc(x.titulo) + '">' +
+    '<div class="props"><label for="iFmt">Formato</label><select id="iFmt">' + opt(FORMATOS, x.formato) + '</select>' +
+    '<label for="iProd">Produto</label><select id="iProd"><option value="">Sem produto</option>' + opt(PRODUTOS, x.produto) + '</select>' +
+    '<label for="iPlat">Plataforma</label><select id="iPlat"><option value="ig"' + (x.plataforma !== 'tt' ? ' selected' : '') + '>Instagram</option><option value="tt"' + (x.plataforma === 'tt' ? ' selected' : '') + '>TikTok</option></select>' +
+    '<label>Situação</label><div class="stseg" id="iSt">' + BANCO_TABS.filter(t => t !== 'No calendário' || x.status === t).map(t => '<button type="button" style="--stc:' + BANCO_COR[t] + '" data-ist="' + t + '" aria-pressed="' + (t === x.status) + '">' + t + '</button>').join('') + '</div></div>' +
+    (imgs.length ? '<div class="campo"><label>Slides</label><div class="row">' + imgs.map(a => imgTag(a, 'alt="" style="height:120px;border-radius:6px"')).join('') + '</div></div>' : '') +
+    '<div class="campo"><label for="iRot">Roteiro / slides</label><textarea class="alto" id="iRot" placeholder="Slide a slide, ou o roteiro do Reel">' + esc(x.roteiro) + '</textarea></div>' +
+    '<div class="campo"><label for="iLeg">Legenda</label><textarea id="iLeg">' + esc(x.legenda) + '</textarea></div>' +
+    '<div class="campo"><label for="iObs">Observações</label><textarea id="iObs">' + esc(x.observacoes) + '</textarea></div>' +
+    (links.length ? '<div class="anexos">' + links.map(a => '<div class="anx"><span class="k">Link</span><a href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.nome || a.url) + '</a></div>').join('') + '</div>' : '') +
+    (x.id ? '<p class="vazio" style="margin:0">' + (x.origem === 'claude' ? 'Criado pelo Claude' : 'Criado por ' + esc(nomeDe(x.criadoPor))) + ' · ' + dataCurta(x.criadoEm) + (x.atualizadoPor ? ' · última edição: ' + esc(nomeDe(x.atualizadoPor)) : '') + '</p>' : '') +
+    '<div class="row"><button class="btn" type="button" id="iSalvar">Salvar</button>' +
+    (x.id ? '<button class="btn sec" type="button" id="iCopiar">Copiar para o chat de carrosséis</button>' : '') +
+    (x.id && x.status !== 'No calendário' ? '<button class="btn sec" type="button" id="iCal">Levar ao calendário</button>' : '') +
+    '<button class="btn sec" type="button" data-fechar>Fechar</button>' +
+    (x.id ? '<button class="btn danger" type="button" id="iDel">Excluir</button>' : '') + '</div>' +
+    '<div id="iVirar"></div></div>';
+  hidratarImgs();
+  if (!x.id) $('#iTit').focus();
+}
+function camposIdeia() {
+  const st = document.querySelector('#iSt [aria-pressed="true"]');
+  return { titulo: $('#iTit').value.trim(), formato: $('#iFmt').value, produto: $('#iProd').value, plataforma: $('#iPlat').value,
+    roteiro: $('#iRot').value, legenda: $('#iLeg').value, observacoes: $('#iObs').value, status: st ? st.dataset.ist : 'A refinar' };
+}
+async function salvarIdeiaAberta(fechar_) {
+  const c = camposIdeia(); if (!c.titulo) { toast('Dê um título para o post'); $('#iTit').focus(); return false; }
+  const id = S.ideiaAberta, atual = S.ideias.find(i => i.id === id);
+  if (atual && atual.status === 'No calendário') delete c.status;
+  try {
+    S.ideias = await api('salvarIdeia', id || '', c);
+    if (!id) S.ideiaAberta = S.ideias[0] && S.ideias[0].id;
+    if (c.status && c.status !== S.bancoTab) S.bancoTab = c.status;
+    renderBanco(); toast(id ? 'Post salvo' : 'Post criado'); if (fechar_) fechar(); return true;
+  } catch (err) { toast(erroTexto(err)); return false; }
+}
+async function levarAoCalendario(id, data, plat) {
+  if (!data) return; if (ehFolga(data)) { toast('Sábado não tem post'); return; }
+  try {
+    const r = await api('ideiaParaCalendario', id, data, plat);
+    S.posts.set(r.post.id, r.post); S.ideias = r.ideias; S.virando = null; S.bancoTab = 'No calendário'; renderBanco();
+    toast('Post criado em ' + rotuloDia(data), 'Ver post', () => irParaPost(r.post.id));
+    return true;
+  } catch (err) { toast(erroTexto(err)); }
+}
+$('#novaIdeia').addEventListener('click', () => abrirIdeia(''));
+$('#areaBanco').addEventListener('click', async e => {
+  const t = e.target.closest('[data-btab]'); if (t) { S.bancoTab = t.dataset.btab; S.virando = null; renderBanco(); return; }
+  const o = e.target.closest('[data-borig]'); if (o) { S.bancoOrigem = o.dataset.borig; renderBanco(); return; }
+  const ab = e.target.closest('[data-abrirideia]'); if (ab) { abrirIdeia(ab.dataset.abrirideia); return; }
+  const v = e.target.closest('[data-virarideia]'); if (v) { S.virando = v.dataset.virarideia; renderBanco(); return; }
+  if (e.target.closest('[data-cancelar]')) { S.virando = null; renderBanco(); return; }
+  const ir = e.target.closest('[data-irpost]'); if (ir) { irParaPost(ir.dataset.irpost); return; }
+  const st = e.target.closest('[data-bset]');
+  if (st) { try { S.ideias = await api('salvarIdeia', st.dataset.bid, { status: st.dataset.bset }); renderBanco(); toast('Restaurado'); } catch (err) { toast(erroTexto(err)); } return; }
+  if (e.target.closest('[data-criar]')) {
+    const box = e.target.closest('[data-virar]');
+    levarAoCalendario(box.dataset.virar, box.querySelector('input').value, box.querySelector('select').value);
+  }
+});
+$('#camada').addEventListener('click', async e => {
+  if (!e.target.closest('.modal.larga')) return;
+  const st = e.target.closest('[data-ist]');
+  if (st) { document.querySelectorAll('#iSt button').forEach(b => b.setAttribute('aria-pressed', String(b === st))); return; }
+  if (e.target.closest('#iSalvar')) { salvarIdeiaAberta(true); return; }
+  if (e.target.closest('#iCopiar')) {
+    const x = Object.assign({}, S.ideias.find(i => i.id === S.ideiaAberta) || {}, camposIdeia());
+    try { await navigator.clipboard.writeText(textoParaChat(x)); toast('Copiado. Cole no chat de carrosséis da HOW.'); }
+    catch (err) { toast('Não consegui copiar. Selecione o roteiro e copie à mão.'); }
+    return;
+  }
+  if (e.target.closest('#iCal')) { $('#iVirar').innerHTML = formVirar(S.ideiaAberta, true); return; }
+  if (e.target.closest('#iVirar [data-cancelar]')) { $('#iVirar').innerHTML = ''; return; }
+  if (e.target.closest('#iVirar [data-criar]')) {
+    const box = $('#iVirar [data-virar]');
+    if (!(await salvarIdeiaAberta(false))) return;
+    if (await levarAoCalendario(S.ideiaAberta, box.querySelector('input').value, box.querySelector('select').value)) fechar();
+    return;
+  }
+  const del = e.target.closest('#iDel');
+  if (del) {
+    if (!del.classList.contains('armed')) { del.classList.add('armed'); del.textContent = 'Confirmar exclusão'; return; }
+    try { S.ideias = await api('salvarIdeia', S.ideiaAberta, { excluir: true }); renderBanco(); fechar(); toast('Post excluído do banco'); } catch (err) { toast(erroTexto(err)); }
   }
 });
 
@@ -1094,6 +1263,7 @@ async function sincronizar() {
     S.agora = r.agora; S.equipe = r.equipe; S.coments = r.comentarios || S.coments;
     const digitando = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
     if (r.referencias && JSON.stringify(r.referencias) !== JSON.stringify(S.refs)) { S.refs = r.referencias; if (S.area === 'refs' && !digitando && !S.virando) renderRefs(); }
+    if (r.ideias && JSON.stringify(r.ideias) !== JSON.stringify(S.ideias)) { S.ideias = r.ideias; if (S.area === 'banco' && !digitando && !S.virando && !document.querySelector('.modal.larga')) renderBanco(); }
     if (r.recebidos && JSON.stringify(r.recebidos) !== JSON.stringify(S.receb)) { S.receb = r.recebidos; if (S.area === 'receb' && !digitando && !S.virando) renderReceb(); }
     let mudou = false;
     r.posts.forEach(p => {
@@ -1118,7 +1288,7 @@ async function iniciar() {
   $('#cal').innerHTML = '<div class="skel"></div>';
   try {
     const r = await api('carregar');
-    S.eu = r.eu; S.equipe = r.equipe; S.coments = r.comentarios || {}; S.agora = r.agora; S.refs = r.referencias || []; S.receb = r.recebidos || [];
+    S.eu = r.eu; S.equipe = r.equipe; S.coments = r.comentarios || {}; S.agora = r.agora; S.refs = r.referencias || []; S.receb = r.recebidos || []; S.ideias = r.ideias || [];
     r.posts.forEach(p => S.posts.set(p.id, p));
     $('#meAv').textContent = iniciais(S.eu.email); $('#meAv').title = S.eu.nome;
     $('#sync').textContent = 'Sincronizado ' + hora(new Date().toISOString());
