@@ -46,7 +46,7 @@ button{cursor:pointer}
 .brand{display:flex;align-items:center;gap:9px;white-space:nowrap}
 .logo{height:19px;width:auto;display:block;color:var(--ink);align-self:center}
 .sub{font-family:var(--serif);font-size:19px;color:var(--ink2)}
-.areas{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto}
+.areas{display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}.areas::-webkit-scrollbar{display:none}
 .area{background:none;border:0;padding:8px 12px;border-radius:999px;color:var(--muted);white-space:nowrap;font-weight:500}
 .area[aria-current="page"]{background:var(--ink);color:var(--panel)}
 .area small{font-size:10.5px;margin-left:4px;letter-spacing:.04em;text-transform:uppercase}
@@ -265,6 +265,36 @@ main{max-width:1440px;margin:0 auto;padding-bottom:max(40px,env(safe-area-inset-
 .modal input.tit:focus{outline:none;border-color:var(--ink)}
 .campo textarea.alto{min-height:220px}
 
+/* influenciadores */
+.placar{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:4px;--c:var(--muted)}
+.kpi .k{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.kpi .v{font-family:var(--serif);font-size:34px;line-height:1}
+.kpi .m{font-size:12.5px;color:var(--muted)}
+.kpi .prog{display:block;height:5px;border-radius:9px;background:var(--line2);overflow:hidden}
+.kpi .prog i{display:block;height:100%;background:var(--c)}
+.kpi.verde{--c:var(--st-ok)}.kpi.amarelo{--c:var(--st-prod)}.kpi.vermelho{--c:var(--danger)}
+.kpi .sinal{font-size:11px;font-weight:700;color:var(--c)}
+.bloco{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.bloco>h2{font-size:15px;margin:0;padding:12px 14px;border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.bloco>h2 small{font-weight:400;color:var(--muted);font-size:12.5px}
+.inf-row{display:grid;grid-template-columns:minmax(170px,1.6fr) minmax(120px,1fr) minmax(250px,2fr);gap:6px 14px;padding:10px 14px;border-bottom:1px solid var(--line2);align-items:center}
+.inf-row:last-child{border-bottom:0}
+.inf-row .nm{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.inf-row .nm small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.inf-row .nm a{color:var(--muted);text-decoration:none}.inf-row .nm a:hover{text-decoration:underline;color:var(--ink)}
+.inf-row .fx{font-size:12.5px;color:var(--ink2);display:grid;gap:2px}
+.inf-row .fx a{color:var(--ink)}
+.inf-row .ac{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-end}
+.inf-row select{border:1px solid var(--line);border-radius:7px;padding:5px 7px;background:var(--panel);font-size:12.5px}
+.inf-row .linha-post{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.inf-row .linha-post input{flex:1;min-width:200px;border:1px solid var(--line);border-radius:7px;padding:6px 8px;background:var(--panel)}
+.msg{grid-column:1/-1;margin:0;white-space:pre-wrap;font-size:13px;background:var(--line2);border-radius:8px;padding:9px 11px}
+.atraso{color:var(--danger);font-weight:600}
+.busca{border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:var(--panel);min-width:0;flex:1 1 220px;max-width:340px}
+.privado{font-size:12px;color:var(--muted)}
+@media (max-width:760px){.inf-row{grid-template-columns:1fr}.inf-row .ac{justify-content:flex-start}.placar{grid-template-columns:1fr 1fr}.kpi .v{font-size:28px}.kpi .m{font-size:11.5px}}
+
 /* entrada: quem é você? */
 .entrada{position:fixed;inset:0;z-index:90;background:var(--bg);overflow:auto;display:grid;place-items:center;padding-block:max(24px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .ent-box{width:min(420px,100%);display:grid;gap:18px}
@@ -301,6 +331,7 @@ button.av{border:0;cursor:pointer;padding:0}
   <nav class="areas" aria-label="Áreas">
     <button class="area" type="button" data-area="cal" aria-current="page">Calendário</button>
     <button class="area" type="button" data-area="banco">Posts</button>
+    <button class="area" type="button" data-area="inf">Influenciadores</button>
     <button class="area" type="button" data-area="refs">Referências</button>
     <button class="area" type="button" data-area="receb">Recebidos</button>
   </nav>
@@ -340,6 +371,22 @@ button.av{border:0;cursor:pointer;padding:0}
   <div class="seg" id="bancoTabs" role="group" aria-label="Situação"></div>
   <div class="filtros" id="bancoOrigem" role="group" aria-label="Quem criou"></div>
   <div class="grade" id="bancoLista"></div>
+</main>
+
+<main class="gut pg" id="areaInf" hidden>
+  <div class="pg-top"><div class="pg-h"><h1>Influenciadores</h1>
+    <p>Do kit ao vídeo autorizado. Quem cobrar hoje, em que etapa cada pessoa está e o placar da semana contra a meta de dezembro.</p></div>
+    <div class="row"><button class="btn sec" type="button" id="infPastas">Ler pastas do Drive</button><button class="btn" type="button" id="novoInf">+ Adicionar pessoa</button></div></div>
+  <div class="pg-top" style="align-items:center"><div class="seg" id="infTipos" role="group" aria-label="Tipo"></div>
+    <span class="meta" id="infPastasInfo"></span></div>
+  <div class="placar" id="infPlacar"></div>
+  <section class="bloco" id="infContratos" hidden></section>
+  <section class="bloco" id="infChegou" hidden></section>
+  <section class="bloco" id="infCobrar"></section>
+  <div class="pg-top" style="align-items:center"><div class="filtros" id="infEtapas" role="group" aria-label="Etapa do funil"></div>
+    <input class="busca" type="search" id="infBusca" placeholder="Buscar nome, @ ou cupom" aria-label="Buscar"></div>
+  <section class="bloco" id="infLista"></section>
+  <p class="privado">CPF, celular, e-mail e endereço não ficam aqui: eles continuam só na planilha do Gustavo.</p>
 </main>
 
 <main class="gut pg" id="areaRefs" hidden>
@@ -435,6 +482,7 @@ const S = {
   quickDia: null,
   area: 'cal', refs: [], receb: [], refCat: '', recTab: 'Novo', virando: null,
   ideias: [], bancoTab: 'A refinar', bancoOrigem: '',
+  infs: [], infEtapa: 'Kit enviado', infBusca: '', infPost: null, infMsg: null, infTipo: ls.get('hub.inftipo', 'Influenciador'),
   token: ls.get('hub.token', ''), nomes: null, entrando: false,
 };
 const hojeIso = () => iso(new Date());
@@ -858,9 +906,9 @@ async function excluir(btn) {
 document.querySelector('.areas').addEventListener('click', e => { const b = e.target.closest('[data-area]'); if (b) irArea(b.dataset.area); });
 function irArea(a) {
   S.area = a;
-  document.querySelectorAll('[data-area]').forEach(b => { if (b.dataset.area === a) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-  $('#areaCal').hidden = a !== 'cal'; $('#areaRefs').hidden = a !== 'refs'; $('#areaReceb').hidden = a !== 'receb'; $('#areaBanco').hidden = a !== 'banco';
-  if (a === 'refs') renderRefs(); else if (a === 'receb') renderReceb(); else if (a === 'banco') renderBanco(); else render();
+  document.querySelectorAll('[data-area]').forEach(b => { if (b.dataset.area === a) { b.setAttribute('aria-current', 'page'); b.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } else b.removeAttribute('aria-current'); });
+  $('#areaCal').hidden = a !== 'cal'; $('#areaRefs').hidden = a !== 'refs'; $('#areaReceb').hidden = a !== 'receb'; $('#areaBanco').hidden = a !== 'banco'; $('#areaInf').hidden = a !== 'inf';
+  if (a === 'refs') renderRefs(); else if (a === 'receb') renderReceb(); else if (a === 'banco') renderBanco(); else if (a === 'inf') renderInf(); else render();
   window.scrollTo(0, 0);
 }
 function irParaPost(id) {
@@ -940,6 +988,246 @@ $('#areaRefs').addEventListener('click', async e => {
       S.posts.set(r.post.id, r.post); S.refs = r.referencias; S.virando = null; renderRefs();
       toast('Ideia criada em ' + rotuloDia(data), 'Ver post', () => irParaPost(r.post.id));
     } catch (err) { toast(erroTexto(err)); }
+  }
+});
+
+/* influenciadores */
+const ETAPAS_INF = ['Prospectado', 'Kit combinado', 'Kit enviado', 'Postou', 'Vendeu', 'Autorizado'];
+const FORA = { pausado: 'Pausado', encerrado: 'Encerrado', b2b: 'B2B (clube/assessoria)' };
+const METAS = { kitPost: 70, postsSemana: 20, autorizados: 10, prospectados: 20 };
+const idxEtapa = e => ETAPAS_INF.indexOf(e);
+const diasDesde = d => d ? Math.floor((parse(hojeIso()) - parse(d)) / 864e5) : null;
+const dm = d => d ? d.slice(8, 10) + '/' + d.slice(5, 7) : '';
+const TIPOS_INF = [['Influenciador', 'Influenciadores (fit)'], ['UGC', 'UGC'], ['B2B', 'B2B (clubes e assessorias)']];
+const doTipo = () => S.infs.filter(x => (x.tipo || 'Influenciador') === S.infTipo);
+const ativos = () => doTipo().filter(x => x.situacao === 'ativo');
+const entregas = x => (x.posts || []).map(p => ({ em: p.em, url: p.url, k: 'post' })).concat((x.arquivos || []).map(a => ({ em: a.em, url: a.url, k: 'arquivo', nome: a.nome })));
+const diasPara = d => d ? Math.round((parse(d) - parse(hojeIso())) / 864e5) : null;
+const baseCobranca = x => x.recebidoEm || x.kitEm;
+const postou = x => entregas(x).length > 0 || idxEtapa(x.etapa) >= idxEtapa('Postou');
+function precisaCobrar(x) {
+  if (x.situacao !== 'ativo' || !x.kitEm || postou(x)) return false;
+  if (x.recebidoEm && !x.boasVindasEm) return false; // primeiro vem a mensagem de boas-vindas
+  if (diasDesde(baseCobranca(x)) < 7) return false;
+  return !(x.cobradoEm && diasDesde(x.cobradoEm) < 3);
+}
+function primeiroNome(n) { return String(n || '').replace(/\(.*?\)/g, '').trim().split(/\s+/)[0] || ''; }
+function mensagemCobranca(x) {
+  const n = primeiroNome(x.nome);
+  const d = diasDesde(baseCobranca(x));
+  if (x.recebidoEm)
+    return 'Oi, ' + n + '! Tudo bem? Aqui é a Manu, da HOW 💚\nSeu kit chegou no dia ' + dm(x.recebidoEm) + '. Já deu pra provar?\n' +
+      'A gente ia amar ver você usando no dia a dia! Consegue postar um Reel ou uns Stories marcando @wearehow__ esta semana?\n' +
+      'Se quiser ideia, te mando o briefing da semana. Qualquer coisa, tô por aqui!';
+  if (/aguardando/i.test(x.entrega || ''))
+    return 'Oi, ' + n + '! Tudo bem? Aqui é a Manu, da HOW 💚\nSeu kit saiu daqui no dia ' + dm(x.kitEm) + ' e quero ter certeza de que chegou certinho. Já recebeu?';
+  if (d > 30)
+    return 'Oi, ' + n + '! Tudo bem? Aqui é a Manu, da HOW 💚\nEntrei agora no time e estou falando com todo mundo que recebeu kit. Você curtiu o HOW?\n' +
+      'Se fizer sentido pra você, a gente ia amar um Reel ou uns Stories marcando @wearehow__. Te mando o briefing da semana com umas ideias, pode ser?';
+  return 'Oi, ' + n + '! Tudo bem? Aqui é a Manu, da HOW 💚\nSeu kit saiu no dia ' + dm(x.kitEm) + '. Já deu pra provar?\n' +
+    'A gente ia amar ver você usando no dia a dia! Consegue postar um Reel ou uns Stories marcando @wearehow__ esta semana?\n' +
+    'Se quiser ideia, te mando o briefing da semana. Qualquer coisa, tô por aqui!';
+}
+const msgBoasVindas = x => 'Oi, ' + primeiroNome(x.nome) + '! Tudo bem? Aqui é a Manu, da HOW 💚\nVi aqui que seu kit chegou! Chegou tudo certo com os produtos?';
+const msgResposta = () => 'Que bom! Espero que goste e aproveite os produtos 💚 Qualquer dúvida, é só me chamar por aqui.';
+function placar() {
+  const at = ativos();
+  const comKit = at.filter(x => x.kitEm), post = comKit.filter(postou);
+  const seg = iso(inicioSemana(new Date())), mes = hojeIso().slice(0, 7);
+  const postsSemana = doTipo().reduce((n, x) => n + entregas(x).filter(p => p.em && p.em >= seg).length, 0);
+  const autorizados = doTipo().filter(x => x.autorizadoEm && diasDesde(x.autorizadoEm) <= 90).length;
+  const prospectados = doTipo().filter(x => (x.prospectadoEm || '').slice(0, 7) === mes).length;
+  const pct = comKit.length ? Math.round(post.length / comKit.length * 100) : 0;
+  const tile = (k, v, meta, sufixo, detalhe) => {
+    const p = Math.min(100, Math.round((parseFloat(v) || 0) / meta * 100));
+    const cor = p >= 100 ? 'verde' : p >= 50 ? 'amarelo' : 'vermelho';
+    return '<div class="kpi ' + cor + '"><span class="k">' + k + '</span><span class="v">' + v + sufixo + '</span>' +
+      '<span class="prog"><i style="width:' + p + '%"></i></span><span class="m">Meta de dezembro: ' + meta + sufixo + ' · ' + detalhe + '</span>' +
+      '<span class="sinal">' + (cor === 'verde' ? 'Na meta' : cor === 'amarelo' ? 'No caminho' : 'Longe da meta') + '</span></div>';
+  };
+  $('#infPlacar').innerHTML =
+    tile('Kit → post', pct, METAS.kitPost, '%', post.length + ' de ' + comKit.length + ' com kit') +
+    tile('Entregas nesta semana', postsSemana, METAS.postsSemana, '', 'posts + arquivos na pasta, desde ' + dm(seg)) +
+    tile('Vídeos autorizados', autorizados, METAS.autorizados, '', 'uso em anúncio por 90 dias') +
+    tile('Novos prospectados', prospectados, METAS.prospectados, '', 'neste mês');
+}
+function linhaInf(x, modo) {
+  const ig = x.instagram ? '<a href="https://instagram.com/' + esc(x.instagram) + '" target="_blank" rel="noopener">@' + esc(x.instagram) + '</a>' : '';
+  const tt = x.tiktok ? '<a href="https://tiktok.com/@' + esc(x.tiktok) + '" target="_blank" rel="noopener">TikTok</a>' : '';
+  const d = diasDesde(x.kitEm);
+  const fatos = [];
+  if (x.kitEm) fatos.push('Kit ' + dm(x.kitEm) + (d != null ? ' · <span class="' + (d >= 15 && !postou(x) ? 'atraso' : '') + '">há ' + d + ' dias</span>' : ''));
+  if (x.recebidoEm) fatos.push('Chegou ' + dm(x.recebidoEm));
+  else if (/aguardando/i.test(x.entrega || '')) fatos.push('<span class="atraso">Entrega: ' + esc(x.entrega) + '</span>');
+  if ((x.posts || []).length) fatos.push((x.posts.length) + ' post' + (x.posts.length > 1 ? 's' : '') + ' · <a href="' + esc(x.posts[x.posts.length - 1].url) + '" target="_blank" rel="noopener">último ↗</a>');
+  if ((x.arquivos || []).length || x.pastaUrl) fatos.push((x.arquivos || []).length + ' arquivo' + ((x.arquivos || []).length === 1 ? '' : 's') + ' na pasta' + (x.pastaUrl ? ' · <a href="' + esc(x.pastaUrl) + '" target="_blank" rel="noopener">abrir ↗</a>' : ''));
+  if (x.contratoFim) { const f = diasPara(x.contratoFim); fatos.push('<span class="' + (f <= 10 ? 'atraso' : '') + '">Contrato ' + (f < 0 ? 'vencido há ' + (-f) + ' dias' : 'acaba em ' + f + ' dias') + '</span>'); }
+  if (x.cupom) fatos.push('Cupom ' + esc(x.cupom) + ' · ' + (Number(x.vendas) || 0) + ' venda' + (Number(x.vendas) === 1 ? '' : 's'));
+  if (x.autorizadoEm) fatos.push('<span style="color:var(--st-ok);font-weight:600">Autorizado até ' + dm(iso(addDays(parse(x.autorizadoEm), 90))) + '</span>');
+  let ac = '';
+  if (modo === 'chegou') {
+    ac = '<button class="mini pri" type="button" data-imsg="' + esc(x.id) + '" data-itipo="boas">' + (S.infMsg === x.id ? 'Copiar de novo' : 'Copiar mensagem') + '</button>' +
+      '<button class="mini" type="button" data-iresp="' + esc(x.id) + '">Copiar resposta</button>' +
+      '<button class="mini" type="button" data-iacao="boasvindas" data-iid="' + esc(x.id) + '">Enviei</button>';
+  } else if (modo === 'contrato') {
+    ac = '<button class="mini pri" type="button" data-ieditar="' + esc(x.id) + '">Renovar (editar datas)</button>' +
+      '<button class="mini del" type="button" data-iencerrar="' + esc(x.id) + '">Encerrar</button>';
+  } else if (modo === 'cobrar') {
+    ac = '<button class="mini pri" type="button" data-imsg="' + esc(x.id) + '">' + (S.infMsg === x.id ? 'Copiar de novo' : 'Copiar mensagem') + '</button>' +
+      '<button class="mini" type="button" data-iacao="cobrei" data-iid="' + esc(x.id) + '">Cobrei</button>' +
+      '<button class="mini" type="button" data-ipost="' + esc(x.id) + '">Postou</button>';
+  } else {
+    ac = '<select data-ietapa="' + esc(x.id) + '" aria-label="Etapa de ' + esc(x.nome) + '">' + ETAPAS_INF.map(e => '<option' + (e === x.etapa ? ' selected' : '') + '>' + e + '</option>').join('') + '</select>';
+    if (idxEtapa(x.etapa) < idxEtapa('Kit enviado') && !x.kitEm) ac += '<button class="mini pri" type="button" data-iacao="kit" data-iid="' + esc(x.id) + '">Kit enviado</button>';
+    if (x.kitEm && !x.recebidoEm && !postou(x)) ac += '<button class="mini" type="button" data-iacao="chegou" data-iid="' + esc(x.id) + '">Chegou</button>';
+    ac += '<button class="mini" type="button" data-ipost="' + esc(x.id) + '">Postou</button>';
+    if (postou(x) && !x.autorizadoEm) ac += '<button class="mini" type="button" data-iacao="autorizou" data-iid="' + esc(x.id) + '">Autorizou</button>';
+    ac += '<button class="mini" type="button" data-ieditar="' + esc(x.id) + '">Editar</button>';
+  }
+  const extra = (S.infPost === x.id ? '<div class="linha-post"><input type="url" placeholder="Cole o link do post (Reel, Story, TikTok)" data-ipostlink="' + esc(x.id) + '"><button class="mini pri" type="button" data-ipostok="' + esc(x.id) + '">Salvar post</button><button class="mini" type="button" data-ipostx>Cancelar</button></div>' : '') +
+    (modo === 'cobrar' && S.infMsg === x.id ? '<p class="msg">' + esc(mensagemCobranca(x)) + '</p>' : '') +
+    (modo === 'chegou' && S.infMsg === x.id ? '<p class="msg">' + esc(msgBoasVindas(x)) + '\n\nQuando responder que chegou tudo certo:\n' + esc(msgResposta()) + '</p>' : '') +
+    (modo === 'contrato' ? '<p class="msg">' + contratoResumo(x) + '</p>' : '');
+  return '<div class="inf-row"><div class="nm">' + esc(x.nome) + '<small>' + [ig, tt, esc(x.tamanho || '')].filter(Boolean).join(' · ') + '</small></div>' +
+    '<div class="fx">' + (fatos.length ? fatos.map(f => '<span>' + f + '</span>').join('') : '<span class="meta">Sem kit ainda</span>') + '</div>' +
+    '<div class="ac">' + ac + '</div>' + extra + '</div>';
+}
+function contratoResumo(x) {
+  const ini = x.contratoInicio || x.kitEm || '', fim = x.contratoFim;
+  const feitas = entregas(x).filter(e => e.em && (!ini || e.em >= ini) && e.em <= fim).length;
+  const meses = ini ? Math.max(1, Math.round((parse(fim) - parse(ini)) / (30.4 * 864e5))) : 0;
+  const prev = Number(x.entregasMes || 0) * meses;
+  return 'Período: ' + (ini ? dm(ini) : '?') + ' a ' + dm(fim) + ' · Entregas no período: ' + feitas + (prev ? ' de ' + prev + ' combinadas (' + Math.round(feitas / prev * 100) + '%)' : '') +
+    (x.combinado ? ' · Combinado: ' + esc(x.combinado) : '') + ' · Vendas: ' + (Number(x.vendas) || 0) + (x.autorizadoEm ? ' · Autorizou uso' : '');
+}
+function renderInf() {
+  $('#infTipos').innerHTML = TIPOS_INF.map(t => '<button type="button" data-itipob="' + t[0] + '" aria-pressed="' + (t[0] === S.infTipo) + '">' + t[1] + ' · ' + S.infs.filter(x => (x.tipo || 'Influenciador') === t[0]).length + '</button>').join('');
+  placar();
+  const venc = doTipo().filter(x => x.situacao === 'ativo' && x.contratoFim && diasPara(x.contratoFim) <= 45 && diasPara(x.contratoFim) >= -30).sort((a, b) => (a.contratoFim < b.contratoFim ? -1 : 1));
+  $('#infContratos').hidden = !venc.length;
+  $('#infContratos').innerHTML = '<h2>Contratos vencendo · ' + venc.length + '<small>Faltam 45 dias ou menos. Veja o que a pessoa entregou e decida renovar ou encerrar.</small></h2>' + venc.map(x => linhaInf(x, 'contrato')).join('');
+  const chegou = doTipo().filter(x => x.situacao === 'ativo' && x.recebidoEm && !x.boasVindasEm && !postou(x)).sort((a, b) => (a.recebidoEm < b.recebidoEm ? 1 : -1));
+  $('#infChegou').hidden = !chegou.length;
+  $('#infChegou').innerHTML = '<h2>Kit chegou: mandar boas-vindas · ' + chegou.length + '<small>Pergunte se chegou tudo certo. Os 7 dias para cobrar o post contam a partir da chegada.</small></h2>' + chegou.map(x => linhaInf(x, 'chegou')).join('');
+  const cobrar = doTipo().filter(precisaCobrar).sort((a, b) => (a.kitEm < b.kitEm ? 1 : -1)); // kit mais recente primeiro: é quem tem mais chance de postar
+  $('#infCobrar').innerHTML = '<h2>Cobrar hoje · ' + cobrar.length + '<small>Kit enviado há 7 dias ou mais, sem post. Quem você marcar como "Cobrei" volta daqui a 3 dias.</small></h2>' +
+    (cobrar.length ? cobrar.slice(0, 15).map(x => linhaInf(x, 'cobrar')).join('') + (cobrar.length > 15 ? '<div class="inf-row"><span class="meta">+ ' + (cobrar.length - 15) + ' pessoas. A lista começa pelos kits mais recentes; quem você marca como "Cobrei" sai e abre espaço.</span></div>' : '')
+      : '<div class="vazio-pg" style="border:0">Ninguém para cobrar hoje.</div>');
+  const at = ativos();
+  const tabs = ETAPAS_INF.map(e => [e, e, at.filter(x => x.etapa === e).length]).concat([['__fora', 'Pausados e encerrados', doTipo().filter(x => x.situacao !== 'ativo').length], ['', 'Todos', doTipo().length]]);
+  $('#infEtapas').innerHTML = tabs.map(t => '<button type="button" data-ietab="' + esc(t[0]) + '" aria-pressed="' + (t[0] === S.infEtapa) + '">' + t[1] + ' · ' + t[2] + '</button>').join('');
+  const q = S.infBusca.trim().toLowerCase();
+  const lista = doTipo().filter(x => (S.infEtapa === '' ? true : S.infEtapa === '__fora' ? x.situacao !== 'ativo' : x.situacao === 'ativo' && x.etapa === S.infEtapa) &&
+    (!q || [x.nome, x.instagram, x.tiktok, x.cupom].join(' ').toLowerCase().includes(q)))
+    .sort((a, b) => (a.kitEm || '9') < (b.kitEm || '9') ? -1 : (a.kitEm || '9') > (b.kitEm || '9') ? 1 : a.nome.localeCompare(b.nome, 'pt'));
+  $('#infLista').innerHTML = '<h2>' + (S.infEtapa === '' ? 'Todos' : S.infEtapa === '__fora' ? 'Pausados e encerrados' : S.infEtapa) + ' · ' + lista.length + '</h2>' +
+    (lista.length ? lista.map(x => linhaInf(x, 'lista')).join('') : '<div class="vazio-pg" style="border:0">' + (S.infs.length ? 'Ninguém aqui.' : 'Nenhuma pessoa ainda. Clique em "+ Adicionar pessoa".') + '</div>');
+}
+async function acaoInf(id, acao, valor, msg) {
+  try { S.infs = await api('acaoInfluenciador', id, acao, valor || ''); S.infPost = null; renderInf(); if (msg) toast(msg); return true; }
+  catch (err) { toast(erroTexto(err)); return false; }
+}
+function abrirInf(id) {
+  const x = id ? S.infs.find(i => i.id === id) : { id: '', nome: '', instagram: '', tiktok: '', tamanho: 'Nano', cidade: '', categoria: '', situacao: 'ativo', etapa: 'Prospectado', kitEm: '', cupom: '', vendas: 0, acordo: 'comissão 10%', observacoes: '', posts: [], arquivos: [], autorizadoEm: '', tipo: S.infTipo };
+  if (!x) return;
+  S.aberto = null; S.infAberto = x.id;
+  const opt = (l, v) => l.map(o => '<option value="' + esc(o[0]) + '"' + (o[0] === v ? ' selected' : '') + '>' + esc(o[1]) + '</option>').join('');
+  const inp = (idc, v, t, ph) => '<input id="' + idc + '" type="' + (t || 'text') + '" value="' + esc(v || '') + '"' + (ph ? ' placeholder="' + ph + '"' : '') + '>';
+  $('#camada').innerHTML = '<div class="backdrop" data-fechar></div><div class="modal larga inf" role="dialog" aria-modal="true" aria-label="Influenciador">' +
+    '<input class="tit" id="fNome" placeholder="Nome" value="' + esc(x.nome) + '">' +
+    '<div class="props"><label for="fIg">Instagram</label>' + inp('fIg', x.instagram, 'text', '@perfil') +
+    '<label for="fTt">TikTok</label>' + inp('fTt', x.tiktok, 'text', '@perfil') +
+    '<label for="fTam">Tamanho</label><select id="fTam">' + opt([['', '-'], ['Nano', 'Nano'], ['Micro', 'Micro'], ['Médio', 'Médio'], ['Grande', 'Grande']], x.tamanho) + '</select>' +
+    '<label for="fCid">Cidade</label>' + inp('fCid', x.cidade) +
+    '<label for="fCat">Nicho</label>' + inp('fCat', x.categoria, 'text', 'Corrida, treino, bem-estar…') +
+    '<label for="fEt">Etapa</label><select id="fEt">' + opt(ETAPAS_INF.map(e => [e, e]), x.etapa) + '</select>' +
+    '<label for="fTipo">Tipo</label><select id="fTipo">' + opt(TIPOS_INF, x.tipo || 'Influenciador') + '</select>' +
+    '<label for="fSit">Situação</label><select id="fSit">' + opt([['ativo', 'Ativo'], ['pausado', 'Pausado'], ['encerrado', 'Encerrado']], x.situacao) + '</select>' +
+    '<label for="fKit">Kit enviado em</label>' + inp('fKit', x.kitEm, 'date') +
+    '<label for="fRec">Kit chegou em</label>' + inp('fRec', x.recebidoEm, 'date') +
+    '<label for="fCi">Contrato: início</label>' + inp('fCi', x.contratoInicio, 'date') +
+    '<label for="fCf">Contrato: fim</label>' + inp('fCf', x.contratoFim, 'date') +
+    '<label for="fComb">Combinado</label>' + inp('fComb', x.combinado, 'text', '1 Reel + 3 Stories por mês') +
+    '<label for="fEm">Entregas por mês</label>' + inp('fEm', x.entregasMes, 'number') +
+    '<label for="fPasta">Pasta no Drive</label>' + inp('fPasta', x.pastaUrl, 'url', 'achada sozinha pelo nome') +
+    '<label for="fCup">Cupom</label>' + inp('fCup', x.cupom) +
+    '<label for="fVen">Vendas</label>' + inp('fVen', x.vendas, 'number') +
+    '<label for="fAut">Autorizado em</label>' + inp('fAut', x.autorizadoEm, 'date') +
+    '<label for="fAco">Acordo</label>' + inp('fAco', x.acordo) + '</div>' +
+    ((x.posts || []).length ? '<div class="campo"><label>Posts</label><div class="anexos">' + x.posts.map(p => '<div class="anx"><span class="k">' + (p.em ? dm(p.em) : 'antes de 17/11') + '</span><a href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(p.url.replace(/^https?:\/\//, '')) + '</a></div>').join('') + '</div></div>' : '') +
+    ((x.arquivos || []).length ? '<div class="campo"><label>Arquivos na pasta · ' + x.arquivos.length + '</label><div class="anexos">' + x.arquivos.slice(-8).reverse().map(a => '<div class="anx"><span class="k">' + dm(a.em) + '</span><a href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.nome) + '</a></div>').join('') + '</div></div>' : '') +
+    '<div class="campo"><label for="fObs">Observações</label><textarea id="fObs">' + esc(x.observacoes) + '</textarea></div>' +
+    '<p class="privado" style="margin:0">Não escreva CPF, celular, e-mail ou endereço aqui. Se escrever, o app apaga.</p>' +
+    '<div class="row"><button class="btn" type="button" id="fSalvar">Salvar</button><button class="btn sec" type="button" data-fechar>Fechar</button>' +
+    (x.id ? '<button class="btn danger" type="button" id="fDel">Excluir</button>' : '') + '</div></div>';
+  $('#fNome').focus();
+}
+$('#novoInf').addEventListener('click', () => abrirInf(''));
+$('#infPastas').addEventListener('click', async e => {
+  const b = e.currentTarget; b.disabled = true; b.textContent = 'Lendo pastas…';
+  try {
+    const r = await api('verificarPastas');
+    S.infs = r.influenciadores; renderInf();
+    $('#infPastasInfo').textContent = r.casadas + ' de ' + S.infs.length + ' pessoas com pasta achada · ' + r.novos + ' arquivo(s) novo(s)';
+    toast(r.novos ? r.novos + ' entrega(s) nova(s) nas pastas' : 'Nada novo nas pastas');
+  } catch (err) { toast(erroTexto(err)); }
+  finally { b.disabled = false; b.textContent = 'Ler pastas do Drive'; }
+});
+$('#infBusca').addEventListener('input', e => { S.infBusca = e.target.value; renderInf(); });
+$('#areaInf').addEventListener('change', e => {
+  const sel = e.target.closest('[data-ietapa]');
+  if (sel) acaoInf(sel.dataset.ietapa, 'etapa', sel.value, 'Etapa: ' + sel.value);
+});
+$('#areaInf').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.dataset && e.target.dataset.ipostlink) { e.preventDefault(); const id = e.target.dataset.ipostlink; acaoInf(id, 'post', e.target.value, 'Post registrado'); }
+});
+$('#areaInf').addEventListener('click', async e => {
+  const t = e.target.closest('[data-ietab]'); if (t) { S.infEtapa = t.dataset.ietab; renderInf(); return; }
+  const tb = e.target.closest('[data-itipob]'); if (tb) { S.infTipo = tb.dataset.itipob; ls.set('hub.inftipo', S.infTipo); renderInf(); return; }
+  const rp = e.target.closest('[data-iresp]');
+  if (rp) { try { await navigator.clipboard.writeText(msgResposta()); toast('Resposta copiada'); } catch (err) { toast('Selecione a resposta e copie à mão.'); } return; }
+  const enc = e.target.closest('[data-iencerrar]');
+  if (enc) {
+    if (enc.dataset.ok !== '1') { enc.dataset.ok = '1'; enc.textContent = 'Confirmar'; return; }
+    try { S.infs = await api('salvarInfluenciador', enc.dataset.iencerrar, { situacao: 'encerrado' }); renderInf(); toast('Contrato encerrado'); } catch (err) { toast(erroTexto(err)); }
+    return;
+  }
+  const ed = e.target.closest('[data-ieditar]'); if (ed) { abrirInf(ed.dataset.ieditar); return; }
+  const m = e.target.closest('[data-imsg]');
+  if (m) {
+    const x = S.infs.find(i => i.id === m.dataset.imsg); S.infMsg = x.id; renderInf();
+    try { await navigator.clipboard.writeText(m.dataset.itipo === 'boas' ? msgBoasVindas(x) : mensagemCobranca(x)); toast('Mensagem copiada. Cole no WhatsApp de ' + primeiroNome(x.nome) + '.'); }
+    catch (err) { toast('Selecione a mensagem e copie à mão.'); }
+    return;
+  }
+  const p = e.target.closest('[data-ipost]'); if (p) { S.infPost = p.dataset.ipost; renderInf(); const i = document.querySelector('[data-ipostlink]'); if (i) i.focus(); return; }
+  if (e.target.closest('[data-ipostx]')) { S.infPost = null; renderInf(); return; }
+  const ok = e.target.closest('[data-ipostok]');
+  if (ok) { const id = ok.dataset.ipostok; acaoInf(id, 'post', document.querySelector('[data-ipostlink="' + CSS.escape(id) + '"]').value, 'Post registrado'); return; }
+  const a = e.target.closest('[data-iacao]');
+  if (a) {
+    a.disabled = true;
+    const msgs = { kit: 'Kit enviado hoje', chegou: 'Kit chegou hoje. Mande as boas-vindas.', boasvindas: 'Anotado. A cobrança do post conta 7 dias a partir da chegada.', autorizou: 'Autorizado por 90 dias', cobrei: 'Anotado. Volta para a lista em 3 dias.' };
+    acaoInf(a.dataset.iid, a.dataset.iacao, a.dataset.iacao === 'kit' ? hojeIso() : '', msgs[a.dataset.iacao]);
+  }
+});
+$('#camada').addEventListener('click', async e => {
+  if (!e.target.closest('.modal.inf')) return;
+  if (e.target.closest('#fSalvar')) {
+    const c = { nome: $('#fNome').value.trim(), instagram: $('#fIg').value, tiktok: $('#fTt').value, tamanho: $('#fTam').value, cidade: $('#fCid').value,
+      categoria: $('#fCat').value, etapa: $('#fEt').value, situacao: $('#fSit').value, kitEm: $('#fKit').value, cupom: $('#fCup').value.trim(),
+      vendas: $('#fVen').value, autorizadoEm: $('#fAut').value, acordo: $('#fAco').value, observacoes: $('#fObs').value,
+      tipo: $('#fTipo').value, recebidoEm: $('#fRec').value, contratoInicio: $('#fCi').value, contratoFim: $('#fCf').value,
+      combinado: $('#fComb').value, entregasMes: $('#fEm').value, pastaUrl: $('#fPasta').value.trim() };
+    if (!c.nome) { toast('Escreva o nome'); return; }
+    try { S.infs = await api('salvarInfluenciador', S.infAberto || '', c); fechar(); renderInf(); toast(S.infAberto ? 'Salvo' : c.nome + ' entrou na lista'); }
+    catch (err) { toast(erroTexto(err)); }
+    return;
+  }
+  const del = e.target.closest('#fDel');
+  if (del) {
+    if (!del.classList.contains('armed')) { del.classList.add('armed'); del.textContent = 'Confirmar exclusão'; return; }
+    try { S.infs = await api('salvarInfluenciador', S.infAberto, { excluir: true }); fechar(); renderInf(); toast('Pessoa removida da lista'); } catch (err) { toast(erroTexto(err)); }
   }
 });
 
@@ -1263,6 +1551,7 @@ async function sincronizar() {
     S.agora = r.agora; S.equipe = r.equipe; S.coments = r.comentarios || S.coments;
     const digitando = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
     if (r.referencias && JSON.stringify(r.referencias) !== JSON.stringify(S.refs)) { S.refs = r.referencias; if (S.area === 'refs' && !digitando && !S.virando) renderRefs(); }
+    if (r.influenciadores && JSON.stringify(r.influenciadores) !== JSON.stringify(S.infs)) { S.infs = r.influenciadores; if (S.area === 'inf' && !digitando && !S.infPost && !document.querySelector('.modal.inf')) renderInf(); }
     if (r.ideias && JSON.stringify(r.ideias) !== JSON.stringify(S.ideias)) { S.ideias = r.ideias; if (S.area === 'banco' && !digitando && !S.virando && !document.querySelector('.modal.larga')) renderBanco(); }
     if (r.recebidos && JSON.stringify(r.recebidos) !== JSON.stringify(S.receb)) { S.receb = r.recebidos; if (S.area === 'receb' && !digitando && !S.virando) renderReceb(); }
     let mudou = false;
@@ -1288,7 +1577,7 @@ async function iniciar() {
   $('#cal').innerHTML = '<div class="skel"></div>';
   try {
     const r = await api('carregar');
-    S.eu = r.eu; S.equipe = r.equipe; S.coments = r.comentarios || {}; S.agora = r.agora; S.refs = r.referencias || []; S.receb = r.recebidos || []; S.ideias = r.ideias || [];
+    S.eu = r.eu; S.equipe = r.equipe; S.coments = r.comentarios || {}; S.agora = r.agora; S.refs = r.referencias || []; S.receb = r.recebidos || []; S.ideias = r.ideias || []; S.infs = r.influenciadores || [];
     r.posts.forEach(p => S.posts.set(p.id, p));
     $('#meAv').textContent = iniciais(S.eu.email); $('#meAv').title = S.eu.nome;
     $('#sync').textContent = 'Sincronizado ' + hora(new Date().toISOString());
